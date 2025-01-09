@@ -197,6 +197,7 @@ struct Config {
     http_version_pref: HttpVersionPref,
     http09_responses: bool,
     http1_title_case_headers: bool,
+    http1_origin_header_names: Option<HashMap<String, String>>,
     http1_allow_obsolete_multiline_headers_in_responses: bool,
     http1_ignore_invalid_headers_in_responses: bool,
     http1_allow_spaces_after_header_name_in_responses: bool,
@@ -320,6 +321,7 @@ impl ClientBuilder {
                 http_version_pref: HttpVersionPref::All,
                 http09_responses: false,
                 http1_title_case_headers: false,
+                http1_origin_header_names: None,
                 http1_allow_obsolete_multiline_headers_in_responses: false,
                 http1_ignore_invalid_headers_in_responses: false,
                 http1_allow_spaces_after_header_name_in_responses: false,
@@ -953,6 +955,10 @@ impl ClientBuilder {
             builder.http1_title_case_headers(true);
         }
 
+        if let Some(origin_header_names) = config.http1_origin_header_names {
+            builder.http1_origin_header_names(origin_header_names);
+        }
+
         if config.http1_allow_obsolete_multiline_headers_in_responses {
             builder.http1_allow_obsolete_multiline_headers_in_responses(true);
         }
@@ -1419,6 +1425,12 @@ impl ClientBuilder {
     /// Send headers as title case instead of lowercase.
     pub fn http1_title_case_headers(mut self) -> ClientBuilder {
         self.config.http1_title_case_headers = true;
+        self
+    }
+
+    /// provide origin header names for HTTP/1 connections.
+    pub fn http1_origin_header_names(mut self, value: Option<HashMap<String, String>>) -> ClientBuilder {
+        self.config.http1_origin_header_names = value;
         self
     }
 
