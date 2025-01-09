@@ -1,5 +1,6 @@
 #[cfg(any(feature = "native-tls", feature = "__rustls",))]
 use std::any::Any;
+use std::collections::HashMap;
 use std::convert::TryInto;
 use std::fmt;
 use std::future::Future;
@@ -430,6 +431,10 @@ impl ClientBuilder {
     /// Send headers as title case instead of lowercase.
     pub fn http1_title_case_headers(self) -> ClientBuilder {
         self.with_inner(|inner| inner.http1_title_case_headers())
+    }
+
+    pub fn http1_origin_header_names(self, value: Option<HashMap<string, string>>) -> ClientBuilder {
+        self.with_inner(|inner| inner.http1_origin_header_names(value))
     }
 
     /// Set whether HTTP/1 connections will accept obsolete line folding for
