@@ -294,3 +294,9 @@ required-features = ["deflate", "stream"]
 name = "multipart"
 path = "tests/multipart.rs"
 required-features = ["multipart"]
+
+[patch.crates-io]
+#hyper = { path = "../hyper" }
+#hyper-util = { path = "../hyper-util" }
+hyper = { git = "https://github.com/testfully/hyper.git", branch = "testfully" }
+hyper-util = { git = "https://github.com/testfully/hyper-util.git", branch = "testfully" }
